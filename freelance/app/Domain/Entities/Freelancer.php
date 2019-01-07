@@ -40,9 +40,14 @@ final class Freelancer extends EntityWithEvents
         return new Freelancer($email, $hourRate);
     }
 
+    /**
+     * @param Job $job
+     * @param string $coverLetter
+     * @throws \App\Exceptions\BusinessException
+     */
     public function apply(Job $job, string $coverLetter)
     {
-        $job->newProposal(new Proposal($this, $this->hourRate,$coverLetter));
+        $job->addProposal(new Proposal($this, $this->hourRate, $coverLetter));
 
         $this->record(new FreelancerAppliedForJob($this->getId(), $job->getId()));
     }

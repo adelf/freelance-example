@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ClientRegisterRequest;
-use App\Http\Requests\JobApplyRequest;
 use App\Http\Requests\JobPostRequest;
 use App\Services\JobsService;
 use Ramsey\Uuid\UuidInterface;
@@ -27,8 +25,10 @@ final class JobsController extends Controller
 
     public function get(UuidInterface $id)
     {
+        $job = $this->service->getById($id);
+
         return [
-            'id' => $this->service->getById($id)->getId(),
+            'id' => $job->getId(),
         ];
     }
 }

@@ -46,12 +46,17 @@ final class Job extends EntityWithEvents
         return new Job($client, $description);
     }
 
-    public function newProposal(Proposal $newProposal)
+    /**
+     * @param Proposal $newProposal
+     * @throws \App\Exceptions\BusinessException
+     */
+    public function addProposal(Proposal $newProposal)
     {
-        $this->proposals->map(function(Proposal $proposal) use ($newProposal) {
+        foreach($this->proposals as $proposal)
+        {
             $proposal->checkCompatibility($newProposal);
-        });
+        }
 
-        $this->proposals->add($newProposal);
+        $this->proposals[] = $newProposal;
     }
 }

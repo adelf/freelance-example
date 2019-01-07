@@ -21,11 +21,11 @@ final class JobsService
     /**
      * Return job's id.
      *
-     * @param int $clientId
+     * @param UuidInterface $clientId
      * @param \App\Domain\ValueObjects\JobDescription $description
      * @return UuidInterface
      */
-    public function post($clientId, JobDescription $description): UuidInterface
+    public function post(UuidInterface $clientId, JobDescription $description): UuidInterface
     {
         /** @var Client $client */
         $client = $this->entityManager->findOrFail(Client::class, $clientId);

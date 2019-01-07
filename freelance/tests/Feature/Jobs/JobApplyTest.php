@@ -11,8 +11,9 @@ class JobApplyTest extends TestCase
 
     public function testApply()
     {
+        $jobId = $this->createJob('apply.job@client.test');
         $response = $this->postJson('/api/freelancers/apply-to-job', [
-            'jobId' => $this->createJob('apply.job@client.test'),
+            'jobId' => $jobId,
             'freelancerId' => $this->createFreelancer('apply.job@freelancer.test'),
             'coverLetter' => 'cover letter',
         ]);
