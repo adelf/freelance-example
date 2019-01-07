@@ -3,21 +3,23 @@
 namespace App\Http\Requests;
 
 use App\Domain\ValueObjects\JobDescription;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 final class JobPostRequest extends JsonRequest
 {
     public function rules()
     {
         return [
-            'clientId' => 'required|int',
+            'clientId' => 'required|uuid',
             'title' => 'required',
             'description' => 'required',
         ];
     }
 
-    public function getClientId(): int
+    public function getClientId(): UuidInterface
     {
-        return $this['clientId'];
+        return Uuid::fromString($this['clientId']);
     }
 
     public function getJobDescription(): JobDescription

@@ -6,9 +6,9 @@ use App\Domain\Entities\Freelancer;
 use App\Domain\Entities\Job;
 use App\Domain\ValueObjects\Email;
 use App\Domain\ValueObjects\Money;
-use App\Exceptions\EntityNotFoundException;
 use App\Infrastructure\StrictEntityManager;
 use App\Services\Dto\JobApplyDto;
+use Ramsey\Uuid\UuidInterface;
 
 final class FreelancersService
 {
@@ -25,11 +25,11 @@ final class FreelancersService
      *
      * @param \App\Domain\ValueObjects\Email $email
      * @param \App\Domain\ValueObjects\Money $hourRate
-     * @return int
+     * @return UuidInterface
      */
-    public function register(Email $email, Money $hourRate): int
+    public function register(Email $email, Money $hourRate): UuidInterface
     {
-        $freelancer = new Freelancer($email, $hourRate);
+        $freelancer = Freelancer::register($email, $hourRate);
 
         $this->entityManager->persist($freelancer);
         $this->entityManager->flush();
@@ -53,7 +53,7 @@ final class FreelancersService
         $this->entityManager->flush();
     }
 
-    public function getById(int $id): Freelancer
+    public function getById(UuidInterface $id): Freelancer
     {
         /** @var Freelancer $freelancer */
         $freelancer = $this->entityManager->findOrFail(Freelancer::class, $id);

@@ -6,6 +6,7 @@ use App\Http\Requests\ClientRegisterRequest;
 use App\Http\Requests\JobApplyRequest;
 use App\Http\Requests\JobPostRequest;
 use App\Services\JobsService;
+use Ramsey\Uuid\UuidInterface;
 
 final class JobsController extends Controller
 {
@@ -24,7 +25,7 @@ final class JobsController extends Controller
         ];
     }
 
-    public function get($id)
+    public function get(UuidInterface $id)
     {
         return [
             'id' => $this->service->getById($id)->getId(),

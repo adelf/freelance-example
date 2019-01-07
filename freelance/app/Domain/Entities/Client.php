@@ -2,6 +2,7 @@
 
 namespace App\Domain\Entities;
 
+use App\Domain\Events\Client\ClientRegistered;
 use Doctrine\ORM\Mapping AS ORM;
 use App\Domain\ValueObjects\Email;
 
@@ -16,8 +17,17 @@ final class Client extends EntityWithEvents
      */
     private $email;
 
-    public function __construct(Email $email)
+    protected function __construct(Email $email)
     {
+        parent::__construct();
+
         $this->email = $email;
+
+        $this->record(new ClientRegistered($this->getId()));
+    }
+
+    public static function register(Email $email): Client
+    {
+        return new Client($email);
     }
 }

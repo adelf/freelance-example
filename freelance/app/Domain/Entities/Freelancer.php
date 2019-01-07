@@ -2,6 +2,8 @@
 
 namespace App\Domain\Entities;
 
+use App\Domain\Events\Freelancer\FreelancerAppliedForJob;
+use App\Domain\Events\Freelancer\FreelancerRegistered;
 use Doctrine\ORM\Mapping AS ORM;
 use App\Domain\ValueObjects\Email;
 use App\Domain\ValueObjects\Money;
@@ -23,15 +25,26 @@ final class Freelancer extends EntityWithEvents
      */
     private $hourRate;
 
-    public function __construct(Email $email, Money $hourRate)
+    protected function __construct(Email $email, Money $hourRate)
     {
+        parent::__construct();
+
         $this->email = $email;
         $this->hourRate = $hourRate;
+
+        $this->record(new FreelancerRegistered($this->getId()));
+    }
+
+    public static function register(Email $email, Money $hourRate): Freelancer
+    {
+        return new Freelancer($email, $hourRate);
     }
 
     public function apply(Job $job, string $coverLetter)
     {
         $job->newProposal(new Proposal($this, $this->hourRate,$coverLetter));
+
+        $this->record(new FreelancerAppliedForJob($this->getId(), $job->getId()));
     }
 
     public function equals(Freelancer $other): bool

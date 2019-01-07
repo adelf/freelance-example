@@ -3,14 +3,15 @@
 namespace App\Http\Requests;
 
 use App\Services\Dto\JobApplyDto;
+use Ramsey\Uuid\Uuid;
 
 final class JobApplyRequest extends JsonRequest
 {
     public function rules()
     {
         return [
-            'jobId' => 'required|int',
-            'freelancerId' => 'required|int',
+            'jobId' => 'required|uuid',
+            'freelancerId' => 'required|uuid',
             //'coverLetter' => optional
         ];
     }
@@ -18,8 +19,8 @@ final class JobApplyRequest extends JsonRequest
     public function getDto(): JobApplyDto
     {
         return new JobApplyDto(
-            $this['jobId'],
-            $this['freelancerId'],
+            Uuid::fromString($this['jobId']),
+            Uuid::fromString($this['freelancerId']),
             $this->get('coverLetter', '')
         );
     }

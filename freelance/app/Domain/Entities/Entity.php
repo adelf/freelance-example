@@ -2,18 +2,25 @@
 
 namespace App\Domain\Entities;
 use Doctrine\ORM\Mapping AS ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 abstract class Entity
 {
     /**
-     * @var int
+     * @var UuidInterface
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="NONE")
      */
-    private $id;
+    protected $id;
 
-    public function getId(): int
+    protected function __construct()
+    {
+        $this->id = Uuid::uuid4();
+    }
+
+    public function getId(): UuidInterface
     {
         return $this->id;
     }

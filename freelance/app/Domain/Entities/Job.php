@@ -30,13 +30,15 @@ final class Job extends EntityWithEvents
      */
     private $proposals;
 
-    private function __construct(Client $client, JobDescription $description)
+    protected function __construct(Client $client, JobDescription $description)
     {
+        parent::__construct();
+
         $this->client = $client;
         $this->description = $description;
         $this->proposals = new \Doctrine\Common\Collections\ArrayCollection();
 
-        $this->record(new JobPosted(1));
+        $this->record(new JobPosted($this->getId()));
     }
 
     public static function post(Client $client, JobDescription $description): Job

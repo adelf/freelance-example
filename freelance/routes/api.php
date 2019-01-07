@@ -1,11 +1,11 @@
 <?php
 
 Route::post('clients/register', 'ClientsController@register');
-Route::get('clients/{id}', 'ClientsController@get');
+Route::get('clients/{uuid}', 'ClientsController@get');
 
 Route::post('freelancers/register', 'FreelancersController@register');
-Route::get('freelancers/{id}', 'FreelancersController@get');
+Route::get('freelancers/{uuid}', 'FreelancersController@get');
+Route::post('freelancers/apply-to-job', 'FreelancersController@apply');
 
 Route::post('jobs/post', 'JobsController@post');
-Route::post('jobs/apply', 'JobsController@apply');
-Route::get('jobs/{id}', 'JobsController@get');
+Route::get('jobs/{uuid}', 'JobsController@get');

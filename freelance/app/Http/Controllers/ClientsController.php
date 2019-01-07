@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ClientRegisterRequest;
 use App\Services\ClientsService;
+use Ramsey\Uuid\UuidInterface;
 
 final class ClientsController extends Controller
 {
@@ -22,7 +23,7 @@ final class ClientsController extends Controller
         ];
     }
 
-    public function get($id)
+    public function get(UuidInterface $id)
     {
         return [
             'id' => $this->service->getById($id)->getId(),

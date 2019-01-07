@@ -7,6 +7,7 @@ use App\Domain\ValueObjects\Money;
 use App\Http\Requests\FreelancerRegisterRequest;
 use App\Http\Requests\JobApplyRequest;
 use App\Services\FreelancersService;
+use Ramsey\Uuid\UuidInterface;
 
 final class FreelancersController extends Controller
 {
@@ -34,7 +35,7 @@ final class FreelancersController extends Controller
         return ['ok' => 1];
     }
 
-    public function get($id)
+    public function get(UuidInterface $id)
     {
         return [
             'id' => $this->service->getById($id)->getId(),

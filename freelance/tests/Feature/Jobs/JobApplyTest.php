@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Tests\Feature\Traits\CreateEntitiesTrait;
 use Tests\TestCase;
 
 class JobApplyTest extends TestCase
@@ -10,7 +11,7 @@ class JobApplyTest extends TestCase
 
     public function testApply()
     {
-        $response = $this->postJson('/api/jobs/apply', [
+        $response = $this->postJson('/api/freelancers/apply-to-job', [
             'jobId' => $this->createJob('apply.job@client.test'),
             'freelancerId' => $this->createFreelancer('apply.job@freelancer.test'),
             'coverLetter' => 'cover letter',
@@ -21,7 +22,7 @@ class JobApplyTest extends TestCase
 
     public function testValidation()
     {
-        $response = $this->postJson('/api/jobs/apply', [
+        $response = $this->postJson('/api/freelancers/apply-to-job', [
             'jobId' => 'not a number',
             'freelancerId' => 'not a number',
         ]);
@@ -39,7 +40,7 @@ class JobApplyTest extends TestCase
         $job = $this->createJob('apply.job.same@client.test');
         $freelancer = $this->createFreelancer('apply.job.same@freelancer.test');
 
-        $response = $this->postJson('/api/jobs/apply', [
+        $response = $this->postJson('/api/freelancers/apply-to-job', [
             'jobId' => $job,
             'freelancerId' => $freelancer,
             'coverLetter' => 'cover letter',
@@ -47,7 +48,7 @@ class JobApplyTest extends TestCase
 
         $response->assertOk();
 
-        $response = $this->postJson('/api/jobs/apply', [
+        $response = $this->postJson('/api/freelancers/apply-to-job', [
             'jobId' => $job,
             'freelancerId' => $freelancer,
             'coverLetter' => 'another cover letter',

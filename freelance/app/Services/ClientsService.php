@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Domain\Entities\Client;
 use App\Domain\ValueObjects\Email;
-use App\Exceptions\EntityNotFoundException;
 use App\Infrastructure\StrictEntityManager;
+use Ramsey\Uuid\UuidInterface;
 
 final class ClientsService
 {
@@ -21,11 +21,11 @@ final class ClientsService
      * Return client's id.
      *
      * @param \App\Domain\ValueObjects\Email $email
-     * @return int
+     * @return UuidInterface
      */
-    public function register(Email $email): int
+    public function register(Email $email): UuidInterface
     {
-        $client = new Client($email);
+        $client = Client::register($email);
 
         $this->entityManager->persist($client);
         $this->entityManager->flush();
@@ -33,7 +33,7 @@ final class ClientsService
         return $client->getId();
     }
 
-    public function getById(int $id): Client
+    public function getById(UuidInterface $id): Client
     {
         /** @var Client $client */
         $client = $this->entityManager->findOrFail(Client::class, $id);

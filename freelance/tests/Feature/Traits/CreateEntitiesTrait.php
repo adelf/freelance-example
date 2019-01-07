@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Traits;
 
 trait CreateEntitiesTrait
 {
-    protected function createClient($email): int
+    protected function createClient($email): string
     {
         $response = $this->postJson('/api/clients/register', [
             'email' => $email,
@@ -13,7 +13,7 @@ trait CreateEntitiesTrait
         return $response->getData()->id;
     }
 
-    protected function createFreelancer($email): int
+    protected function createFreelancer($email): string
     {
         $response = $this->postJson('/api/freelancers/register', [
             'email' => $email,
@@ -23,7 +23,7 @@ trait CreateEntitiesTrait
         return $response->getData()->id;
     }
 
-    protected function createJob($clientsEmail): int
+    protected function createJob($clientsEmail): string
     {
         $response = $this->postJson('/api/jobs/post', [
             'clientId' => $this->createClient($clientsEmail),

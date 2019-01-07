@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Ramsey\Uuid\Uuid;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -23,7 +24,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
+
+        \Route::bind('uuid', function ($value) {
+            return Uuid::fromString($value);
+        });
 
         parent::boot();
     }

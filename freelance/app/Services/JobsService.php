@@ -3,11 +3,10 @@
 namespace App\Services;
 
 use App\Domain\Entities\Client;
-use App\Domain\Entities\Freelancer;
 use App\Domain\Entities\Job;
 use App\Domain\ValueObjects\JobDescription;
 use App\Infrastructure\StrictEntityManager;
-use App\Services\Dto\JobApplyDto;
+use Ramsey\Uuid\UuidInterface;
 
 final class JobsService
 {
@@ -24,9 +23,9 @@ final class JobsService
      *
      * @param int $clientId
      * @param \App\Domain\ValueObjects\JobDescription $description
-     * @return int
+     * @return UuidInterface
      */
-    public function post($clientId, JobDescription $description): int
+    public function post($clientId, JobDescription $description): UuidInterface
     {
         /** @var Client $client */
         $client = $this->entityManager->findOrFail(Client::class, $clientId);
@@ -39,7 +38,7 @@ final class JobsService
         return $job->getId();
     }
 
-    public function getById(int $id): Job
+    public function getById(UuidInterface $id): Job
     {
         /** @var Job $job */
         $job = $this->entityManager->findOrFail(Job::class, $id);

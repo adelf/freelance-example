@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Tests\Feature\Traits\CreateEntitiesTrait;
 use Tests\TestCase;
 
 class JobPostTest extends TestCase

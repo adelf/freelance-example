@@ -2,30 +2,32 @@
 
 namespace App\Services\Dto;
 
+use Ramsey\Uuid\UuidInterface;
+
 final class JobApplyDto
 {
-    /** @var int */
+    /** @var UuidInterface */
     private $jobId;
 
-    /** @var int */
+    /** @var UuidInterface */
     private $freelancerId;
 
     /** @var string */
     private $coverLetter;
 
-    public function __construct(int $jobId, int $freelancerId, string $coverLetter)
+    public function __construct(UuidInterface $jobId, UuidInterface $freelancerId, string $coverLetter)
     {
         $this->jobId = $jobId;
         $this->freelancerId = $freelancerId;
         $this->coverLetter = $coverLetter;
     }
 
-    public function getJobId(): int
+    public function getJobId(): UuidInterface
     {
         return $this->jobId;
     }
 
-    public function getFreelancerId(): int
+    public function getFreelancerId(): UuidInterface
     {
         return $this->freelancerId;
     }

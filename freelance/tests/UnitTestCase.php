@@ -7,7 +7,7 @@ use Tests\Constraints\EventsHas;
 
 abstract class UnitTestCase extends TestCase
 {
-    protected function assertEventsHas(array $events, string $eventClass)
+    protected function assertEventsHas(string $eventClass, array $events)
     {
         static::assertThat($events, new EventsHas($eventClass));
     }

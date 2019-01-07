@@ -39,6 +39,8 @@ final class Proposal extends Entity
 
     public function __construct(Freelancer $freelancer, Money $hourRate, string $coverLetter)
     {
+        parent::__construct();
+
         $this->freelancer = $freelancer;
         $this->hourRate = $hourRate;
         $this->coverLetter = $coverLetter;
