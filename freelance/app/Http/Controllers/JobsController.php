@@ -24,13 +24,6 @@ final class JobsController extends Controller
         ];
     }
 
-    public function apply(JobApplyRequest $request)
-    {
-        $this->service->apply($request->getDto());
-
-        return ['ok' => 1];
-    }
-
     public function get($id)
     {
         return [

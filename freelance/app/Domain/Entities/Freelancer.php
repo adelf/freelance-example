@@ -29,9 +29,9 @@ final class Freelancer extends EntityWithEvents
         $this->hourRate = $hourRate;
     }
 
-    public function makeProposal(string $coverLetter): Proposal
+    public function apply(Job $job, string $coverLetter)
     {
-        return new Proposal($this, $this->hourRate, $coverLetter);
+        $job->newProposal(new Proposal($this, $this->hourRate,$coverLetter));
     }
 
     public function equals(Freelancer $other): bool

@@ -2,7 +2,8 @@
 
 namespace App\Domain\Events\Client;
 
-final class ClientRegistered
-{
+use App\Domain\Events\EventWithId;
 
+final class ClientRegistered extends EventWithId
+{
 }

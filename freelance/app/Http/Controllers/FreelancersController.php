@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Domain\ValueObjects\Email;
 use App\Domain\ValueObjects\Money;
 use App\Http\Requests\FreelancerRegisterRequest;
+use App\Http\Requests\JobApplyRequest;
 use App\Services\FreelancersService;
 
 final class FreelancersController extends Controller
@@ -24,6 +25,13 @@ final class FreelancersController extends Controller
                 Email::create($request['email']),
                 Money::dollars($request['hourRate'])),
         ];
+    }
+
+    public function apply(JobApplyRequest $request)
+    {
+        $this->service->apply($request->getDto());
+
+        return ['ok' => 1];
     }
 
     public function get($id)

@@ -39,23 +39,6 @@ final class JobsService
         return $job->getId();
     }
 
-    /**
-     * @param \App\Services\Dto\JobApplyDto $dto
-     * @throws \App\Exceptions\BusinessException
-     */
-    public function apply(JobApplyDto $dto)
-    {
-        /** @var Job $job */
-        $job = $this->entityManager->findOrFail(Job::class, $dto->getJobId());
-
-        /** @var Freelancer $freelancer */
-        $freelancer = $this->entityManager->findOrFail(Freelancer::class, $dto->getFreelancerId());
-
-        $job->apply($freelancer, $dto->getCoverLetter());
-
-        $this->entityManager->flush();
-    }
-
     public function getById(int $id): Job
     {
         /** @var Job $job */

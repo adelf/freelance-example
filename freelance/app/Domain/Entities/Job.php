@@ -2,6 +2,7 @@
 
 namespace App\Domain\Entities;
 
+use App\Domain\Events\Job\JobPosted;
 use App\Domain\ValueObjects\JobDescription;
 use Doctrine\ORM\Mapping AS ORM;
 
@@ -34,6 +35,8 @@ final class Job extends EntityWithEvents
         $this->client = $client;
         $this->description = $description;
         $this->proposals = new \Doctrine\Common\Collections\ArrayCollection();
+
+        $this->record(new JobPosted(1));
     }
 
     public static function post(Client $client, JobDescription $description): Job
@@ -41,25 +44,12 @@ final class Job extends EntityWithEvents
         return new Job($client, $description);
     }
 
-    /**
-     * @param \App\Domain\Entities\Freelancer $freelancer
-     * @param string $coverLetter
-     * @throws \App\Exceptions\BusinessException
-     */
-    public function apply(Freelancer $freelancer, string $coverLetter)
+    public function newProposal(Proposal $newProposal)
     {
-        $newProposal = $freelancer->makeProposal($coverLetter);
-
-        foreach ($this->proposals as $proposal)
-        {
+        $this->proposals->map(function(Proposal $proposal) use ($newProposal) {
             $proposal->checkCompatibility($newProposal);
-        }
+        });
 
         $this->proposals->add($newProposal);
-    }
-
-    public function getProposalsCount(): int
-    {
-        return $this->proposals->count();
     }
 }

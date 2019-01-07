@@ -3,10 +3,12 @@
 namespace App\Services;
 
 use App\Domain\Entities\Freelancer;
+use App\Domain\Entities\Job;
 use App\Domain\ValueObjects\Email;
 use App\Domain\ValueObjects\Money;
 use App\Exceptions\EntityNotFoundException;
 use App\Infrastructure\StrictEntityManager;
+use App\Services\Dto\JobApplyDto;
 
 final class FreelancersService
 {
@@ -33,6 +35,22 @@ final class FreelancersService
         $this->entityManager->flush();
 
         return $freelancer->getId();
+    }
+
+    /**
+     * @param \App\Services\Dto\JobApplyDto $dto
+     */
+    public function apply(JobApplyDto $dto)
+    {
+        /** @var Job $job */
+        $job = $this->entityManager->findOrFail(Job::class, $dto->getJobId());
+
+        /** @var Freelancer $freelancer */
+        $freelancer = $this->entityManager->findOrFail(Freelancer::class, $dto->getFreelancerId());
+
+        $freelancer->apply($job, $dto->getCoverLetter());
+
+        $this->entityManager->flush();
     }
 
     public function getById(int $id): Freelancer
