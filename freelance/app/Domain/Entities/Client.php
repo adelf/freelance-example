@@ -22,12 +22,13 @@ final class Client extends EntityWithEvents
         parent::__construct();
 
         $this->email = $email;
-
-        $this->record(new ClientRegistered($this->getId()));
     }
 
     public static function register(Email $email): Client
     {
-        return new Client($email);
+        $client = new Client($email);
+        $client->record(new ClientRegistered($client->getId()));
+
+        return $client;
     }
 }

@@ -31,13 +31,14 @@ final class Freelancer extends EntityWithEvents
 
         $this->email = $email;
         $this->hourRate = $hourRate;
-
-        $this->record(new FreelancerRegistered($this->getId()));
     }
 
     public static function register(Email $email, Money $hourRate): Freelancer
     {
-        return new Freelancer($email, $hourRate);
+        $freelancer = new Freelancer($email, $hourRate);
+        $freelancer->record(new FreelancerRegistered($freelancer->getId()));
+
+        return $freelancer;
     }
 
     /**
