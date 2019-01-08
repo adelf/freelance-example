@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-class BusinessException extends \Exception
+abstract class BusinessException extends \Exception
 {
     /**
      * @var string

@@ -2,9 +2,9 @@
 
 namespace App\Domain\Entities;
 
+use App\Exceptions\Job\SameFreelancerProposalException;
 use Doctrine\ORM\Mapping AS ORM;
 use App\Domain\ValueObjects\Money;
-use App\Exceptions\BusinessException;
 
 /**
  * @ORM\Entity()
@@ -48,12 +48,12 @@ final class Proposal extends Entity
 
     /**
      * @param \App\Domain\Entities\Proposal $other
-     * @throws \App\Exceptions\BusinessException
+     * @throws SameFreelancerProposalException
      */
     public function checkCompatibility(Proposal $other)
     {
         if($this->freelancer->equals($other->freelancer)) {
-            throw new BusinessException('This freelancer already made a proposal');
+            throw new SameFreelancerProposalException();
         }
     }
 }

@@ -44,7 +44,7 @@ final class Freelancer extends EntityWithEvents
     /**
      * @param Job $job
      * @param string $coverLetter
-     * @throws \App\Exceptions\BusinessException
+     * @throws \App\Exceptions\Job\SameFreelancerProposalException
      */
     public function apply(Job $job, string $coverLetter)
     {

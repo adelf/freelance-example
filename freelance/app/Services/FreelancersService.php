@@ -39,6 +39,7 @@ final class FreelancersService
 
     /**
      * @param \App\Services\Dto\JobApplyDto $dto
+     * @throws \App\Exceptions\Job\SameFreelancerProposalException
      */
     public function apply(JobApplyDto $dto)
     {

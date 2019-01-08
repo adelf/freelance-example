@@ -49,7 +49,7 @@ final class Job extends EntityWithEvents
 
     /**
      * @param Proposal $newProposal
-     * @throws \App\Exceptions\BusinessException
+     * @throws \App\Exceptions\Job\SameFreelancerProposalException
      */
     public function addProposal(Proposal $newProposal)
     {
