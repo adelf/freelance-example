@@ -2,9 +2,25 @@
 
 namespace App\Domain\Entities;
 
-abstract class EntityWithEvents extends Entity
+use Doctrine\ORM\Mapping AS ORM;
+use Ramsey\Uuid\UuidInterface;
+
+abstract class EntityWithEvents
 {
+    /**
+     * @var UuidInterface
+     * @ORM\Id
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    protected $id;
+
     private $events = [];
+
+    protected function __construct(UuidInterface $id)
+    {
+        $this->id = $id;
+    }
 
     public function releaseEvents(): array
     {
@@ -17,5 +33,10 @@ abstract class EntityWithEvents extends Entity
     protected function record($event)
     {
         $this->events[] = $event;
+    }
+
+    public function getId(): UuidInterface
+    {
+        return $this->id;
     }
 }

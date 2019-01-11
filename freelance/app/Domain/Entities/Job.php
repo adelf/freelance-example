@@ -5,6 +5,7 @@ namespace App\Domain\Entities;
 use App\Domain\Events\Job\JobPosted;
 use App\Domain\ValueObjects\JobDescription;
 use Doctrine\ORM\Mapping AS ORM;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity()
@@ -30,18 +31,18 @@ final class Job extends EntityWithEvents
      */
     private $proposals;
 
-    protected function __construct(Client $client, JobDescription $description)
+    protected function __construct(UuidInterface $id, Client $client, JobDescription $description)
     {
-        parent::__construct();
+        parent::__construct($id);
 
         $this->client = $client;
         $this->description = $description;
         $this->proposals = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public static function post(Client $client, JobDescription $description): Job
+    public static function post(UuidInterface $id, Client $client, JobDescription $description): Job
     {
-        $job = new Job($client, $description);
+        $job = new Job($id, $client, $description);
         $job->record(new JobPosted($job->getId()));
 
         return $job;

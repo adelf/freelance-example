@@ -8,6 +8,7 @@ use App\Domain\ValueObjects\Email;
 use App\Domain\ValueObjects\Money;
 use App\Infrastructure\StrictEntityManager;
 use App\Services\Dto\JobApplyDto;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 final class FreelancersService
@@ -29,7 +30,7 @@ final class FreelancersService
      */
     public function register(Email $email, Money $hourRate): UuidInterface
     {
-        $freelancer = Freelancer::register($email, $hourRate);
+        $freelancer = Freelancer::register(Uuid::uuid4(), $email, $hourRate);
 
         $this->entityManager->persist($freelancer);
         $this->entityManager->flush();

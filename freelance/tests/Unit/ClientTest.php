@@ -13,7 +13,7 @@ class ClientTest extends UnitTestCase
 
     public function testRegister()
     {
-        $client = Client::register($this->createEmail());
+        $client = Client::register($this->createUuid(), $this->createEmail());
 
         $this->assertEventsHas(ClientRegistered::class, $client->releaseEvents());
     }

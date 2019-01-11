@@ -14,7 +14,7 @@ class FreelancerTest extends UnitTestCase
 
     public function testRegister()
     {
-        $freelancer = Freelancer::register($this->createEmail(), Money::dollars(42));
+        $freelancer = Freelancer::register($this->createUuid(), $this->createEmail(), Money::dollars(42));
 
         $this->assertEventsHas(FreelancerRegistered::class, $freelancer->releaseEvents());
     }

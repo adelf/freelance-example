@@ -6,6 +6,7 @@ use App\Domain\Entities\Client;
 use App\Domain\Entities\Job;
 use App\Domain\ValueObjects\JobDescription;
 use App\Infrastructure\StrictEntityManager;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 final class JobsService
@@ -30,7 +31,7 @@ final class JobsService
         /** @var Client $client */
         $client = $this->entityManager->findOrFail(Client::class, $clientId);
 
-        $job = Job::post($client, $description);
+        $job = Job::post(Uuid::uuid4(), $client, $description);
 
         $this->entityManager->persist($job);
         $this->entityManager->flush();

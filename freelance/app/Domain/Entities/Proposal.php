@@ -9,8 +9,16 @@ use App\Domain\ValueObjects\Money;
 /**
  * @ORM\Entity()
  */
-final class Proposal extends Entity
+final class Proposal
 {
+    /**
+     * @var int
+     * @ORM\Id
+     * @ORM\Column(type="integer", unique=true)
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
     /**
      * This column is needed only for mapping
      * @ORM\ManyToOne(targetEntity="Job", inversedBy="proposals")
@@ -39,8 +47,6 @@ final class Proposal extends Entity
 
     public function __construct(Freelancer $freelancer, Money $hourRate, string $coverLetter)
     {
-        parent::__construct();
-
         $this->freelancer = $freelancer;
         $this->hourRate = $hourRate;
         $this->coverLetter = $coverLetter;

@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Domain\Entities\Job;
 use App\Domain\Events\Freelancer\FreelancerAppliedForJob;
 use App\Domain\ValueObjects\JobDescription;
-use App\Exceptions\BusinessException;
+use App\Exceptions\Job\SameFreelancerProposalException;
 use Tests\Unit\Traits\CreationTrait;
 use Tests\UnitTestCase;
 
@@ -30,7 +30,7 @@ class JobApplyTest extends UnitTestCase
 
         $freelancer->apply($job, 'cover letter');
 
-        $this->expectException(BusinessException::class);
+        $this->expectException(SameFreelancerProposalException::class);
 
         $freelancer->apply($job, 'another cover letter');
     }
@@ -38,6 +38,7 @@ class JobApplyTest extends UnitTestCase
     private function createJob(): Job
     {
         return Job::post(
+            $this->createUuid(),
             $this->createClient(),
             JobDescription::create('Simple job', 'Do nothing'));
     }

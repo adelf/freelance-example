@@ -5,6 +5,7 @@ namespace App\Domain\Entities;
 use App\Domain\Events\Client\ClientRegistered;
 use Doctrine\ORM\Mapping AS ORM;
 use App\Domain\ValueObjects\Email;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity()
@@ -17,16 +18,16 @@ final class Client extends EntityWithEvents
      */
     private $email;
 
-    protected function __construct(Email $email)
+    protected function __construct(UuidInterface $id, Email $email)
     {
-        parent::__construct();
+        parent::__construct($id);
 
         $this->email = $email;
     }
 
-    public static function register(Email $email): Client
+    public static function register(UuidInterface $id, Email $email): Client
     {
-        $client = new Client($email);
+        $client = new Client($id, $email);
         $client->record(new ClientRegistered($client->getId()));
 
         return $client;

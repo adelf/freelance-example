@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Domain\Entities\Client;
 use App\Domain\ValueObjects\Email;
 use App\Infrastructure\StrictEntityManager;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 final class ClientsService
@@ -25,7 +26,7 @@ final class ClientsService
      */
     public function register(Email $email): UuidInterface
     {
-        $client = Client::register($email);
+        $client = Client::register(Uuid::uuid4(), $email);
 
         $this->entityManager->persist($client);
         $this->entityManager->flush();

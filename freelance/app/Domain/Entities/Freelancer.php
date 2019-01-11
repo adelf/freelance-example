@@ -7,6 +7,7 @@ use App\Domain\Events\Freelancer\FreelancerRegistered;
 use Doctrine\ORM\Mapping AS ORM;
 use App\Domain\ValueObjects\Email;
 use App\Domain\ValueObjects\Money;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity()
@@ -25,17 +26,17 @@ final class Freelancer extends EntityWithEvents
      */
     private $hourRate;
 
-    protected function __construct(Email $email, Money $hourRate)
+    protected function __construct(UuidInterface $id, Email $email, Money $hourRate)
     {
-        parent::__construct();
+        parent::__construct($id);
 
         $this->email = $email;
         $this->hourRate = $hourRate;
     }
 
-    public static function register(Email $email, Money $hourRate): Freelancer
+    public static function register(UuidInterface $id, Email $email, Money $hourRate): Freelancer
     {
-        $freelancer = new Freelancer($email, $hourRate);
+        $freelancer = new Freelancer($id, $email, $hourRate);
         $freelancer->record(new FreelancerRegistered($freelancer->getId()));
 
         return $freelancer;
@@ -55,6 +56,6 @@ final class Freelancer extends EntityWithEvents
 
     public function equals(Freelancer $other): bool
     {
-        return $this->email->equals($other->email);
+        return $this->id->equals($other->id);
     }
 }
