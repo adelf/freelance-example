@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Write;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobPostRequest;
 use App\Services\JobsService;
-use Ramsey\Uuid\UuidInterface;
 
 final class JobsController extends Controller
 {

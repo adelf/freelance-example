@@ -6,7 +6,6 @@ use App\Domain\Entities\Freelancer;
 use App\Domain\Entities\Job;
 use App\Domain\ValueObjects\Email;
 use App\Domain\ValueObjects\Money;
-use App\Exceptions\ServiceException;
 use App\Infrastructure\StrictObjectManager;
 use App\Services\Dto\JobApplyDto;
 use Illuminate\Contracts\Events\Dispatcher;

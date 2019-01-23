@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Write;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRegisterRequest;
 use App\Services\ClientsService;
-use Ramsey\Uuid\UuidInterface;
 
 final class ClientsController extends Controller
 {

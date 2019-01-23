@@ -65,6 +65,7 @@ final class Proposal
 
     /**
      * Ugly hack, needed to make Doctrine working...
+     * Something like package-private modifier will be good here...
      * @param Job $job
      */
     public function setJob(Job $job)

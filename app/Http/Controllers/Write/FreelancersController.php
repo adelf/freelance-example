@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\FreelancerRegisterRequest;
 use App\Http\Requests\JobApplyRequest;
 use App\Services\FreelancersService;
-use Ramsey\Uuid\UuidInterface;
 
 final class FreelancersController extends Controller
 {
