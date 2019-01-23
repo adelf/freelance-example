@@ -42,6 +42,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($exception instanceof ServiceException)
+        {
+            return response()->json([
+                'error' => $exception->getUserMessage(),
+            ], 422);
+        }
+
         if($exception instanceof BusinessException)
         {
             return response()->json([

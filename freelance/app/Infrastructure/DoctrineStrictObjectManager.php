@@ -2,10 +2,10 @@
 
 namespace App\Infrastructure;
 
-use App\Exceptions\EntityNotFoundException;
+use App\Exceptions\ServiceException;
 use Doctrine\ORM\Decorator\EntityManagerDecorator;
 
-final class StrictEntityManager extends EntityManagerDecorator
+final class DoctrineStrictObjectManager extends EntityManagerDecorator implements StrictObjectManager
 {
     /**
      * @param string $entityName
@@ -18,7 +18,7 @@ final class StrictEntityManager extends EntityManagerDecorator
 
         if($entity === null)
         {
-            throw new EntityNotFoundException(basename(str_replace('\\', '/', $entityName)) . ' not found');
+            throw new ServiceException(basename(str_replace('\\', '/', $entityName)) . ' not found');
         }
 
         return $entity;

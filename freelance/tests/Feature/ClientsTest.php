@@ -21,6 +21,12 @@ class ClientsTest extends TestCase
         $checkResponse = $this->get('/api/clients/' . $response->getData()->id);
 
         $checkResponse->assertOk();
+
+        $checkResponse->assertJsonStructure([
+            'email'
+        ]);
+
+        $this->assertEquals('create@client.test', $checkResponse->getData()->email);
     }
 
     public function testValidation()

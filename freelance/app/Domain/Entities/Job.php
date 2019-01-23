@@ -27,7 +27,7 @@ final class Job extends EntityWithEvents
 
     /**
      * @var Proposal[] | \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="Proposal", mappedBy="job",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Proposal", mappedBy="job", cascade={"persist"})
      */
     private $proposals;
 
@@ -59,6 +59,7 @@ final class Job extends EntityWithEvents
             $proposal->checkCompatibility($newProposal);
         }
 
-        $this->proposals[] = $newProposal;
+        $this->proposals->add($newProposal);
+        $newProposal->setJob($this);
     }
 }

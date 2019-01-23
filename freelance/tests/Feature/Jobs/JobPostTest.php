@@ -11,8 +11,9 @@ class JobPostTest extends TestCase
 
     public function testPost()
     {
+        $clientId = $this->createClient('job@client.test');
         $response = $this->postJson('/api/jobs/post', [
-            'clientId' => $this->createClient('job@client.test'),
+            'clientId' => $clientId,
             'title' => 'job title',
             'description' => 'job description',
         ]);
@@ -26,6 +27,14 @@ class JobPostTest extends TestCase
         $checkResponse = $this->get('/api/jobs/' . $response->getData()->id);
 
         $checkResponse->assertOk();
+
+        $checkResponse->assertJsonStructure([
+            'client_id', 'title', 'description'
+        ]);
+
+        $this->assertEquals($clientId, $checkResponse->getData()->client_id);
+        $this->assertEquals('job title', $checkResponse->getData()->title);
+        $this->assertEquals('job description', $checkResponse->getData()->description);
     }
 
     public function testValidation()

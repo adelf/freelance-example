@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Write;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\JobPostRequest;
 use App\Services\JobsService;
 use Ramsey\Uuid\UuidInterface;
@@ -20,15 +21,6 @@ final class JobsController extends Controller
     {
         return [
             'id' => $this->service->post($request->getClientId(), $request->getJobDescription()),
-        ];
-    }
-
-    public function get(UuidInterface $id)
-    {
-        $job = $this->service->getById($id);
-
-        return [
-            'id' => $job->getId(),
         ];
     }
 }

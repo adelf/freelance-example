@@ -19,6 +19,16 @@ class JobApplyTest extends TestCase
         ]);
 
         $response->assertOk();
+
+        $checkResponse = $this->get('/api/jobs-with-proposals/' . $jobId);
+
+        $checkResponse->assertOk();
+
+        $checkResponse->assertJsonStructure([
+            'proposals'
+        ]);
+
+        $this->assertEquals(1, count($checkResponse->getData()->proposals));
     }
 
     public function testValidation()

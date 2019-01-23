@@ -16,6 +16,13 @@ trait CreationTrait
         return Uuid::uuid4();
     }
 
+    private function createEmail(): Email
+    {
+        static $i = 0;
+
+        return Email::create("test$i@test.test");
+    }
+
     private function createClient(): Client
     {
         return Client::register($this->createUuid(), $this->createEmail());
@@ -24,12 +31,5 @@ trait CreationTrait
     private function createFreelancer(): Freelancer
     {
         return Freelancer::register($this->createUuid(), $this->createEmail(), Money::dollars(42));
-    }
-
-    private function createEmail(): Email
-    {
-        static $i = 0;
-
-        return Email::create("test$i@test.test");
     }
 }

@@ -22,6 +22,12 @@ class FreelancersTest extends TestCase
         $checkResponse = $this->get('/api/freelancers/' . $response->getData()->id);
 
         $checkResponse->assertOk();
+
+        $checkResponse->assertJsonStructure([
+            'email'
+        ]);
+
+        $this->assertEquals('create@freelancer.test', $checkResponse->getData()->email);
     }
 
     public function testValidation()

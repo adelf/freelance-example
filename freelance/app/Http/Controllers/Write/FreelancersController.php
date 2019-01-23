@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Write;
 
 use App\Domain\ValueObjects\Email;
 use App\Domain\ValueObjects\Money;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\FreelancerRegisterRequest;
 use App\Http\Requests\JobApplyRequest;
 use App\Services\FreelancersService;
@@ -28,17 +29,15 @@ final class FreelancersController extends Controller
         ];
     }
 
+    /**
+     * @param JobApplyRequest $request
+     * @return array
+     * @throws \App\Exceptions\Job\SameFreelancerProposalException
+     */
     public function apply(JobApplyRequest $request)
     {
         $this->service->apply($request->getDto());
 
         return ['ok' => 1];
-    }
-
-    public function get(UuidInterface $id)
-    {
-        return [
-            'id' => $this->service->getById($id)->getId(),
-        ];
     }
 }

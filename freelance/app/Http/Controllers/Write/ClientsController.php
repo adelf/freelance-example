@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Write;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRegisterRequest;
 use App\Services\ClientsService;
 use Ramsey\Uuid\UuidInterface;
@@ -20,13 +21,6 @@ final class ClientsController extends Controller
     {
         return [
             'id' => $this->service->register($request->getEmail()),
-        ];
-    }
-
-    public function get(UuidInterface $id)
-    {
-        return [
-            'id' => $this->service->getById($id)->getId(),
         ];
     }
 }

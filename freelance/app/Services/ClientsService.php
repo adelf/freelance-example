@@ -4,17 +4,19 @@ namespace App\Services;
 
 use App\Domain\Entities\Client;
 use App\Domain\ValueObjects\Email;
-use App\Infrastructure\StrictEntityManager;
+use App\Infrastructure\StrictObjectManager;
+use Illuminate\Contracts\Events\Dispatcher;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-final class ClientsService
+final class ClientsService extends BaseService
 {
-    /** @var StrictEntityManager */
+    /** @var StrictObjectManager */
     private $entityManager;
 
-    public function __construct(StrictEntityManager $entityManager)
+    public function __construct(StrictObjectManager $entityManager, Dispatcher $dispatcher)
     {
+        parent::__construct($dispatcher);
         $this->entityManager = $entityManager;
     }
 
@@ -30,6 +32,8 @@ final class ClientsService
 
         $this->entityManager->persist($client);
         $this->entityManager->flush();
+
+        $this->dispatchEvents($client->releaseEvents());
 
         return $client->getId();
     }

@@ -6,18 +6,21 @@ use App\Domain\Entities\Freelancer;
 use App\Domain\Entities\Job;
 use App\Domain\ValueObjects\Email;
 use App\Domain\ValueObjects\Money;
-use App\Infrastructure\StrictEntityManager;
+use App\Exceptions\ServiceException;
+use App\Infrastructure\StrictObjectManager;
 use App\Services\Dto\JobApplyDto;
+use Illuminate\Contracts\Events\Dispatcher;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-final class FreelancersService
+final class FreelancersService extends BaseService
 {
-    /** @var StrictEntityManager */
+    /** @var StrictObjectManager */
     private $entityManager;
 
-    public function __construct(StrictEntityManager $entityManager)
+    public function __construct(StrictObjectManager $entityManager, Dispatcher $dispatcher)
     {
+        parent::__construct($dispatcher);
         $this->entityManager = $entityManager;
     }
 
@@ -35,6 +38,8 @@ final class FreelancersService
         $this->entityManager->persist($freelancer);
         $this->entityManager->flush();
 
+        $this->dispatchEvents($freelancer->releaseEvents());
+
         return $freelancer->getId();
     }
 
@@ -44,13 +49,15 @@ final class FreelancersService
      */
     public function apply(JobApplyDto $dto)
     {
-        /** @var Job $job */
-        $job = $this->entityManager->findOrFail(Job::class, $dto->getJobId());
-
         /** @var Freelancer $freelancer */
         $freelancer = $this->entityManager->findOrFail(Freelancer::class, $dto->getFreelancerId());
 
+        /** @var Job $job */
+        $job = $this->entityManager->findOrFail(Job::class, $dto->getJobId());
+
         $freelancer->apply($job, $dto->getCoverLetter());
+
+        $this->dispatchEvents($freelancer->releaseEvents());
 
         $this->entityManager->flush();
     }

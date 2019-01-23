@@ -62,4 +62,13 @@ final class Proposal
             throw new SameFreelancerProposalException();
         }
     }
+
+    /**
+     * Ugly hack, needed to make Doctrine working...
+     * @param Job $job
+     */
+    public function setJob(Job $job)
+    {
+        $this->job = $job;
+    }
 }
