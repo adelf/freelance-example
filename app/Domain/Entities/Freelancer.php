@@ -49,7 +49,7 @@ final class Freelancer extends EntityWithEvents
      */
     public function apply(Job $job, string $coverLetter)
     {
-        $job->addProposal(new Proposal($this, $this->hourRate, $coverLetter));
+        $job->addProposal($this, $this->hourRate, $coverLetter);
 
         $this->record(new FreelancerAppliedForJob($this->getId(), $job->getId()));
     }

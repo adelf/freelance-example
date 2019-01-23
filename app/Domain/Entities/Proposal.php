@@ -20,7 +20,6 @@ final class Proposal
     private $id;
 
     /**
-     * This column is needed only for mapping
      * @ORM\ManyToOne(targetEntity="Job", inversedBy="proposals")
      * @ORM\JoinColumn(name="job_id", referencedColumnName="id")
      */
@@ -45,8 +44,9 @@ final class Proposal
      */
     private $coverLetter;
 
-    public function __construct(Freelancer $freelancer, Money $hourRate, string $coverLetter)
+    public function __construct(Job $job, Freelancer $freelancer, Money $hourRate, string $coverLetter)
     {
+        $this->job = $job;
         $this->freelancer = $freelancer;
         $this->hourRate = $hourRate;
         $this->coverLetter = $coverLetter;
@@ -61,15 +61,5 @@ final class Proposal
         if($this->freelancer->equals($other->freelancer)) {
             throw new SameFreelancerProposalException();
         }
-    }
-
-    /**
-     * Ugly hack, needed to make Doctrine working...
-     * Something like package-private modifier will be good here...
-     * @param Job $job
-     */
-    public function setJob(Job $job)
-    {
-        $this->job = $job;
     }
 }

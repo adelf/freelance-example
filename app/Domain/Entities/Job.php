@@ -4,6 +4,7 @@ namespace App\Domain\Entities;
 
 use App\Domain\Events\Job\JobPosted;
 use App\Domain\ValueObjects\JobDescription;
+use App\Domain\ValueObjects\Money;
 use Doctrine\ORM\Mapping AS ORM;
 use Ramsey\Uuid\UuidInterface;
 
@@ -49,17 +50,20 @@ final class Job extends EntityWithEvents
     }
 
     /**
-     * @param Proposal $newProposal
+     * @param Freelancer $freelancer
+     * @param Money $hourRate
+     * @param string $coverLetter
      * @throws \App\Exceptions\Job\SameFreelancerProposalException
      */
-    public function addProposal(Proposal $newProposal)
+    public function addProposal(Freelancer $freelancer, Money $hourRate, string $coverLetter)
     {
+        $newProposal = new Proposal($this, $freelancer, $hourRate, $coverLetter);
+
         foreach($this->proposals as $proposal)
         {
             $proposal->checkCompatibility($newProposal);
         }
 
         $this->proposals->add($newProposal);
-        $newProposal->setJob($this);
     }
 }
