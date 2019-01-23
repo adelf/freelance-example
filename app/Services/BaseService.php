@@ -16,7 +16,7 @@ abstract class BaseService
 
     protected function dispatchEvents(array $events)
     {
-        foreach($events as $event)
+        foreach ($events as $event)
         {
             $this->dispatcher->dispatch($event);
         }

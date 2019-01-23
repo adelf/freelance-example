@@ -54,7 +54,7 @@ final class Job extends EntityWithEvents
      */
     public function addProposal(Proposal $newProposal)
     {
-        foreach($this->proposals as $proposal)
+        foreach ($this->proposals as $proposal)
         {
             $proposal->checkCompatibility($newProposal);
         }
