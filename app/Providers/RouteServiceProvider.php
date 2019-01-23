@@ -25,7 +25,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         \Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 
-        \Route::bind('uuid', function ($value) {
+        \Route::bind('uuid', function($value) {
             return Uuid::fromString($value);
         });
 

@@ -28,7 +28,7 @@ class Handler extends ExceptionHandler
 
     public function report(Exception $exception)
     {
-        if($exception instanceof BusinessException) return;
+        if ($exception instanceof BusinessException) return;
 
         parent::report($exception);
     }
@@ -42,21 +42,21 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if($exception instanceof ServiceException)
+        if ($exception instanceof ServiceException)
         {
             return response()->json([
                 'error' => $exception->getUserMessage(),
             ], 422);
         }
 
-        if($exception instanceof BusinessException)
+        if ($exception instanceof BusinessException)
         {
             return response()->json([
                 'error' => $exception->getUserMessage(),
             ], 422);
         }
 
-        if($exception instanceof EntityNotFoundException)
+        if ($exception instanceof EntityNotFoundException)
         {
             return response('', 404);
         }

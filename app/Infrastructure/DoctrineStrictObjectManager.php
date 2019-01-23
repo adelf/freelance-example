@@ -16,7 +16,7 @@ final class DoctrineStrictObjectManager extends EntityManagerDecorator implement
     {
         $entity = $this->wrapped->find($entityName, $id);
 
-        if($entity === null)
+        if ($entity === null)
         {
             throw new ServiceException(basename(str_replace('\\', '/', $entityName)) . ' not found');
         }
