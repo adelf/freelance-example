@@ -58,7 +58,7 @@ final class Proposal
      */
     public function checkCompatibility(Proposal $other)
     {
-        if($this->freelancer->equals($other->freelancer)) {
+        if ($this->freelancer->equals($other->freelancer)) {
             throw new SameFreelancerProposalException();
         }
     }

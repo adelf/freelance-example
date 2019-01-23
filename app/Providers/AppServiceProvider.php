@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
-        if(!\Doctrine\DBAL\Types\Type::hasType('uuid'))
+        if (!\Doctrine\DBAL\Types\Type::hasType('uuid'))
         {
             \Doctrine\DBAL\Types\Type::addType('uuid', \Ramsey\Uuid\Doctrine\UuidType::class);
         }
