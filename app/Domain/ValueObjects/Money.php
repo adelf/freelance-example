@@ -24,17 +24,12 @@ final class Money
 
     public static function dollars(float $amount): Money
     {
-        return new Money($amount * 100);
+        return new Money(round($amount * 100));
     }
 
     public static function cents(int $amount): Money
     {
         return new Money($amount);
-    }
-
-    public function getAmount(): int
-    {
-        return $this->amount;
     }
 
     public function equals(Money $other): bool
