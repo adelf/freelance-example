@@ -24,7 +24,7 @@ final class Money
 
     public static function dollars(float $amount): Money
     {
-        return new Money(round($amount * 100));
+        return new Money((int)round($amount * 100));
     }
 
     public static function cents(int $amount): Money
