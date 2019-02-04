@@ -5,20 +5,23 @@ namespace App\Services;
 use App\Domain\Entities\Client;
 use App\Domain\Entities\Job;
 use App\Domain\ValueObjects\JobDescription;
+use App\Infrastructure\MultiDispatcher;
 use App\Infrastructure\StrictObjectManager;
-use Illuminate\Contracts\Events\Dispatcher;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-final class JobsService extends BaseService
+final class JobsService
 {
     /** @var StrictObjectManager */
     private $entityManager;
 
-    public function __construct(StrictObjectManager $entityManager, Dispatcher $dispatcher)
+    /** @var MultiDispatcher */
+    private $dispatcher;
+
+    public function __construct(StrictObjectManager $entityManager, MultiDispatcher $dispatcher)
     {
-        parent::__construct($dispatcher);
         $this->entityManager = $entityManager;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -38,16 +41,8 @@ final class JobsService extends BaseService
         $this->entityManager->persist($job);
         $this->entityManager->flush();
 
-        $this->dispatchEvents($job->releaseEvents());
+        $this->dispatcher->multiDispatch($job->releaseEvents());
 
         return $job->getId();
-    }
-
-    public function getById(UuidInterface $id): Job
-    {
-        /** @var Job $job */
-        $job = $this->entityManager->findOrFail(Job::class, $id);
-
-        return $job;
     }
 }

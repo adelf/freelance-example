@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Infrastructure;
 
 use Illuminate\Contracts\Events\Dispatcher;
 
-abstract class BaseService
+final class LaravelMultiDispatcher implements MultiDispatcher
 {
     /** @var Dispatcher */
     private $dispatcher;
@@ -14,9 +14,9 @@ abstract class BaseService
         $this->dispatcher = $dispatcher;
     }
 
-    protected function dispatchEvents(array $events)
+    public function multiDispatch(array $events)
     {
-        foreach ($events as $event)
+        foreach($events as $event)
         {
             $this->dispatcher->dispatch($event);
         }

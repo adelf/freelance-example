@@ -21,8 +21,6 @@ namespace App\ReadModels;
  */
 final class Job extends ReadModel
 {
-    public $incrementing = false;
-
     public function proposals()
     {
         return $this->hasMany(Proposal::class, 'job_id', 'id');

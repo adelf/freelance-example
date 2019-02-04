@@ -6,21 +6,24 @@ use App\Domain\Entities\Freelancer;
 use App\Domain\Entities\Job;
 use App\Domain\ValueObjects\Email;
 use App\Domain\ValueObjects\Money;
+use App\Infrastructure\MultiDispatcher;
 use App\Infrastructure\StrictObjectManager;
 use App\Services\Dto\JobApplyDto;
-use Illuminate\Contracts\Events\Dispatcher;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-final class FreelancersService extends BaseService
+final class FreelancersService
 {
     /** @var StrictObjectManager */
     private $entityManager;
 
-    public function __construct(StrictObjectManager $entityManager, Dispatcher $dispatcher)
+    /** @var MultiDispatcher */
+    private $dispatcher;
+
+    public function __construct(StrictObjectManager $entityManager, MultiDispatcher $dispatcher)
     {
-        parent::__construct($dispatcher);
         $this->entityManager = $entityManager;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -37,7 +40,7 @@ final class FreelancersService extends BaseService
         $this->entityManager->persist($freelancer);
         $this->entityManager->flush();
 
-        $this->dispatchEvents($freelancer->releaseEvents());
+        $this->dispatcher->multiDispatch($freelancer->releaseEvents());
 
         return $freelancer->getId();
     }
@@ -56,16 +59,8 @@ final class FreelancersService extends BaseService
 
         $freelancer->apply($job, $dto->getCoverLetter());
 
-        $this->dispatchEvents($freelancer->releaseEvents());
+        $this->dispatcher->multiDispatch($freelancer->releaseEvents());
 
         $this->entityManager->flush();
-    }
-
-    public function getById(UuidInterface $id): Freelancer
-    {
-        /** @var Freelancer $freelancer */
-        $freelancer = $this->entityManager->findOrFail(Freelancer::class, $id);
-
-        return $freelancer;
     }
 }

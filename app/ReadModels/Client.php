@@ -16,5 +16,4 @@ namespace App\ReadModels;
  */
 final class Client extends ReadModel
 {
-    public $incrementing = false;
 }

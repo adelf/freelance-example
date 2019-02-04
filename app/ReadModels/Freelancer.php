@@ -18,5 +18,4 @@ namespace App\ReadModels;
  */
 final class Freelancer extends ReadModel
 {
-    public $incrementing = false;
 }

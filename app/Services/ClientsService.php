@@ -4,20 +4,23 @@ namespace App\Services;
 
 use App\Domain\Entities\Client;
 use App\Domain\ValueObjects\Email;
+use App\Infrastructure\MultiDispatcher;
 use App\Infrastructure\StrictObjectManager;
-use Illuminate\Contracts\Events\Dispatcher;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-final class ClientsService extends BaseService
+final class ClientsService
 {
     /** @var StrictObjectManager */
     private $entityManager;
 
-    public function __construct(StrictObjectManager $entityManager, Dispatcher $dispatcher)
+    /** @var MultiDispatcher */
+    private $dispatcher;
+
+    public function __construct(StrictObjectManager $entityManager, MultiDispatcher $dispatcher)
     {
-        parent::__construct($dispatcher);
         $this->entityManager = $entityManager;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -33,16 +36,8 @@ final class ClientsService extends BaseService
         $this->entityManager->persist($client);
         $this->entityManager->flush();
 
-        $this->dispatchEvents($client->releaseEvents());
+        $this->dispatcher->multiDispatch($client->releaseEvents());
 
         return $client->getId();
-    }
-
-    public function getById(UuidInterface $id): Client
-    {
-        /** @var Client $client */
-        $client = $this->entityManager->findOrFail(Client::class, $id);
-
-        return $client;
     }
 }

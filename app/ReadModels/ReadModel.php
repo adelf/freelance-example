@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class ReadModel extends Model
 {
+    public $incrementing = false;
+
     protected function performInsert(Builder $query)
     {
         throw new WriteOperationIsNotAllowedForReadModel();
