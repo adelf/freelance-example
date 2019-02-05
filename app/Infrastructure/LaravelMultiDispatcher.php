@@ -16,7 +16,7 @@ final class LaravelMultiDispatcher implements MultiDispatcher
 
     public function multiDispatch(array $events)
     {
-        foreach($events as $event)
+        foreach ($events as $event)
         {
             $this->dispatcher->dispatch($event);
         }
