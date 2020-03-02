@@ -20,7 +20,7 @@ trait CreationTrait
     {
         static $i = 0;
 
-        return Email::create("test$i@test.test");
+        return Email::create("test" . $i++ . "@test.test");
     }
 
     private function createClient(): Client
